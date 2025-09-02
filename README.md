@@ -1,30 +1,70 @@
-# React + TypeScript + Vite
+# Proyecto 1 - Calculadora IMC  
+**Cátedra:** Programación Avanzada  
+**Carrera:** Ingeniería en Sistemas de Información (UTN FRVM)  
+**Entrega 1** – 08/09/2025  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 📌 Descripción
+Este proyecto consiste en una **aplicación web para calcular el Índice de Masa Corporal (IMC)**.  
+El sistema incluye:  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React + Vite (TypeScript).  
+- **Backend:** NestJS (TypeScript).  
+- **Infraestructura:** Servidor en Digital Ocean (Ubuntu 24.04.3 LTS), Nginx como proxy inverso y gestor de dominios con Cloudflare.  
 
-## Expanding the ESLint configuration
+El objetivo principal de esta entrega fue **desplegar la aplicación en un entorno accesible públicamente**, documentando el proceso y aplicando buenas prácticas de despliegue.  
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🎯 Objetivo de la entrega
+- Configuración del servidor de hosting.  
+- Integración entre frontend y backend.  
+- Documentación del proceso de despliegue.  
+- Configuración de dominios y subdominios.  
+- Implementación de un plan inicial de mantenimiento del servicio.  
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+---
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## ⚙️ Proceso de despliegue
+1. **Preparación inicial**  
+   - Fork y clonación de repositorios.  
+   - Instalación de dependencias.  
+
+2. **Servidor y dominios**  
+   - Creación de Droplet en Digital Ocean.  
+   - Configuración de DNS en Cloudflare.  
+   - Subdominios:  
+     - Frontend: `https://avanzada-front.probit.com.ar`  
+     - Backend: `https://avanzada-back.probit.com.ar`  
+
+3. **Despliegue**  
+   - Compilación de frontend (`npm run build`).  
+   - Compilación de backend (`npm run build`).  
+   - Configuración de Nginx para servir el frontend y actuar como proxy inverso para el backend.  
+
+4. **Mantenimiento**  
+   - Uso de **PM2** para mantener el backend en ejecución permanente.  
+   - Configuración de reinicio automático.  
+   - Certificados HTTPS con **Certbot**.  
+
+---
+
+## 👨‍💻 Equipo
+- **Liendo, Alejo** – Legajo 15074 – alejoliendo2004@gmail.com  
+- **Lucarelli, Bruno** – Legajo 14988 – brunolucarelli5@gmail.com  
+- **Magni, Gastón** – Legajo 14991 – gastonmagni@hotmail.com  
+- **Mosconi, Ignacio** – Legajo 15288 – ignamosconi@gmail.com  
+- **Terreno, Valentino** – Legajo 15079 – ninot2016@gmail.com  
+
+**Docente:** Ing. Juan Vanzetti  
+
+---
+
+## 📚 Bibliografía
+- [Nginx Docs](https://nginx.org/en/docs/)  
+- [Vite - Build for Production](https://vite.dev/guide/build.html#building-for-production)  
+- [NestJS Deployment](https://docs.nestjs.com/deployment)  
+- [Certbot - HTTPS Certificates](https://certbot.eff.org/instructions?ws=nginx&os=snap)  
+
+---
