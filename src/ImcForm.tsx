@@ -202,6 +202,52 @@ function ImcForm() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<CategoryTheme | null>(null);
+  
+    const alturaNum = parseFloat(altura);
+    const pesoNum = parseFloat(peso);
+    const isFormValid =
+      !isNaN(alturaNum) &&
+      !isNaN(pesoNum) &&
+      pesoNum > 0 &&
+      pesoNum < 500 &&
+      alturaNum > 0 &&
+      alturaNum < 3;
+
+  const validateAltura = (value: string) => {
+  if (!/^\d*\.?\d*$/.test(value)) {
+    setError("Solo se permiten números y punto decimal en altura.");
+    return;
+  }
+  const num = parseFloat(value);
+  if (value === "") return;
+  if (isNaN(num)) {
+    setError("Por favor, ingresa una altura válida.");
+    return;
+  }
+  if (num <= 0 || num >= 3) {
+    setError("La altura debe ser mayor a 0 y menor a 3 metros.");
+    return;
+  }
+  setError("");
+  };
+
+  const validatePeso = (value: string) => {
+  if (!/^\d*\.?\d*$/.test(value)) {
+    setError("Solo se permiten números y punto decimal en peso.");
+    return;
+  }
+  const num = parseFloat(value);
+  if (value === "") return;
+  if (isNaN(num)) {
+    setError("Por favor, ingresa un peso válido.");
+    return;
+  }
+  if (num <= 0 || num >= 500) {
+    setError("El peso debe ser mayor a 0 y menor a 500 kg.");
+    return;
+  }
+  setError("");
+  };
 
   useEffect(() => {
     if (resultado) {
@@ -211,17 +257,29 @@ function ImcForm() {
     }
   }, [resultado]);
 
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const alturaNum = parseFloat(altura);
-    const pesoNum = parseFloat(peso);
+    if (isNaN(alturaNum) || isNaN(pesoNum)) {
+    setError("Por favor, ingresa valores numéricos válidos.");
+    setResultado(null);
+    return;
+    }
 
-    if (isNaN(alturaNum) || isNaN(pesoNum) || alturaNum <= 0 || pesoNum <= 0) {
-      setError("Por favor, ingresa valores válidos (positivos y numéricos).");
+    if (pesoNum <= 0 || pesoNum >= 500) {
+      setError("El peso debe ser mayor a 0 y menor a 500 kg.");
       setResultado(null);
       return;
     }
+
+    if (alturaNum <= 0 || alturaNum >= 3) {
+      setError("La altura debe ser mayor a 0 y menor a 3 metros.");
+      setResultado(null);
+      return;
+    }
+
 
     setIsLoading(true);
     setError("");
@@ -376,9 +434,16 @@ function ImcForm() {
                       </label>
                       <div className="relative group">
                         <motion.input
-                          type="number"
+                          type="text"
                           value={altura}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAltura(e.target.value)}
+                          onChange={(e) => {
+                            let val = e.target.value;
+                            // Permite solo números y máximo dos decimales
+                            if (/^\d*\.?\d{0,2}$/.test(val)) {
+                              setAltura(val);
+                            }
+                          }}
+                          onBlur={(e) => validateAltura(e.target.value)}
                           step="0.01"
                           min="0.1"
                           max="3.0"
@@ -410,9 +475,16 @@ function ImcForm() {
                       </label>
                       <div className="relative group">
                         <motion.input
-                          type="number"
-                          value={peso}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPeso(e.target.value)}
+                        type="text"
+                        value={peso}
+                        onChange={(e) => {
+                            let val = e.target.value;
+                            // Permite solo números y máximo dos decimales
+                            if (/^\d*\.?\d{0,2}$/.test(val)) {
+                              setPeso(val);
+                            }
+                          }}
+                          onBlur={(e) => validatePeso(e.target.value)}
                           min="1"
                           max="500"
                           placeholder="70"
@@ -436,7 +508,7 @@ function ImcForm() {
                     {/* Botón Submit */}
                     <motion.button
                       type="submit"
-                      disabled={isLoading}
+                      disabled={isLoading || !isFormValid}
                       className={`w-full text-white font-bold py-4 px-8 rounded-2xl focus:outline-none focus:ring-4 focus:ring-offset-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg relative overflow-hidden ${currentTheme
                         ? `bg-gradient-to-r ${currentTheme.gradient} focus:ring-${currentTheme.primary}-500/50`
                         : 'bg-gradient-to-r from-blue-500 to-indigo-600 focus:ring-blue-500/50'
