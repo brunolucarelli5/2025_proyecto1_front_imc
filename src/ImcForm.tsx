@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { apiService, CalculoImc } from "./services/service";
 
 interface ImcResult {
   imc: number;
@@ -198,55 +199,57 @@ const FloatingParticles = ({ theme }: { theme?: CategoryTheme | null }) => {
 function ImcForm() {
   const [altura, setAltura] = useState("");
   const [peso, setPeso] = useState("");
-  const [resultado, setResultado] = useState<ImcResult | null>(null);
+  // ahora resultado usa el tipo que exportamos del service
+  const [resultado, setResultado] = useState<CalculoImc | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<CategoryTheme | null>(null);
-  
-    const alturaNum = parseFloat(altura);
-    const pesoNum = parseFloat(peso);
-    const isFormValid =
-      !isNaN(alturaNum) &&
-      !isNaN(pesoNum) &&
-      pesoNum > 0 &&
-      pesoNum < 500 &&
-      alturaNum > 0 &&
-      alturaNum < 3;
 
+  const alturaNum = parseFloat(altura);
+  const pesoNum = parseFloat(peso);
+  const isFormValid =
+    !isNaN(alturaNum) &&
+    !isNaN(pesoNum) &&
+    pesoNum > 0 &&
+    pesoNum < 500 &&
+    alturaNum > 0 &&
+    alturaNum < 3;
+
+  // validaciones iguales a las tuyas
   const validateAltura = (value: string) => {
-  if (!/^\d*\.?\d*$/.test(value)) {
-    setError("Solo se permiten números y punto decimal en altura.");
-    return;
-  }
-  const num = parseFloat(value);
-  if (value === "") return;
-  if (isNaN(num)) {
-    setError("Por favor, ingresa una altura válida.");
-    return;
-  }
-  if (num <= 0 || num >= 3) {
-    setError("La altura debe ser mayor a 0 y menor a 3 metros.");
-    return;
-  }
-  setError("");
+    if (!/^\d*\.?\d*$/.test(value)) {
+      setError("Solo se permiten números y punto decimal en altura.");
+      return;
+    }
+    const num = parseFloat(value);
+    if (value === "") return;
+    if (isNaN(num)) {
+      setError("Por favor, ingresa una altura válida.");
+      return;
+    }
+    if (num <= 0 || num >= 3) {
+      setError("La altura debe ser mayor a 0 y menor a 3 metros.");
+      return;
+    }
+    setError("");
   };
 
   const validatePeso = (value: string) => {
-  if (!/^\d*\.?\d*$/.test(value)) {
-    setError("Solo se permiten números y punto decimal en peso.");
-    return;
-  }
-  const num = parseFloat(value);
-  if (value === "") return;
-  if (isNaN(num)) {
-    setError("Por favor, ingresa un peso válido.");
-    return;
-  }
-  if (num <= 0 || num >= 500) {
-    setError("El peso debe ser mayor a 0 y menor a 500 kg.");
-    return;
-  }
-  setError("");
+    if (!/^\d*\.?\d*$/.test(value)) {
+      setError("Solo se permiten números y punto decimal en peso.");
+      return;
+    }
+    const num = parseFloat(value);
+    if (value === "") return;
+    if (isNaN(num)) {
+      setError("Por favor, ingresa un peso válido.");
+      return;
+    }
+    if (num <= 0 || num >= 500) {
+      setError("El peso debe ser mayor a 0 y menor a 500 kg.");
+      return;
+    }
+    setError("");
   };
 
   useEffect(() => {
@@ -257,15 +260,13 @@ function ImcForm() {
     }
   }, [resultado]);
 
-  
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isNaN(alturaNum) || isNaN(pesoNum)) {
-    setError("Por favor, ingresa valores numéricos válidos.");
-    setResultado(null);
-    return;
+      setError("Por favor, ingresa valores numéricos válidos.");
+      setResultado(null);
+      return;
     }
 
     if (pesoNum <= 0 || pesoNum >= 500) {
@@ -280,20 +281,16 @@ function ImcForm() {
       return;
     }
 
-
     setIsLoading(true);
     setError("");
 
     try {
-      const response = await axios.post("https://avanzada-back.probit.com.ar/imc/calcular", {
-        altura: alturaNum,
-        peso: pesoNum,
-      });
-      setResultado(response.data);
+      // <- aquí usamos el service en lugar de axios directo
+      const data = await apiService.calcular(alturaNum, pesoNum);
+      setResultado(data); // data es CalculoImc (tiene imc y categoria)
     } catch (err) {
-      setError(
-        "Error al calcular el IMC. Verifica si el backend está corriendo."
-      );
+      console.error("Error en apiService.calcular:", err);
+      setError("Error al calcular el IMC. Verifica si el backend está corriendo.");
       setResultado(null);
     } finally {
       setIsLoading(false);

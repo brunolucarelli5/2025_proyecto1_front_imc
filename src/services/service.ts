@@ -1,5 +1,13 @@
 import api from "./api";
 
+export type CalculoImc = {
+  fecha: string;
+  peso: number;
+  altura: number;
+  imc: number;
+  categoria: string;
+};
+
 export const apiService = {
   async findAll() {
     const { data } = await api.get("/findAll");
@@ -11,18 +19,10 @@ export const apiService = {
     return data;
   },
 
-  async findPag(page = 1, limit = 5) {
-    const { data } = await api.get("/findPag", {
-      params: { page, limit },
+  async getHistorial(pag: number, mostrar: number) {
+    const { data } = await api.get("/imc/pag", {
+      params: { pag, mostrar },
     });
-
-    /**
-     * Esperamos que el back devuelva algo así:
-     * {
-     *   items: [...],
-     *   totalItems: 42
-     * }
-     */
     return data;
   },
 
