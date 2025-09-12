@@ -1,35 +1,32 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
-export type Tab = "calculadora" | "historial";
+const Navbar: React.FC = () => {
+  const location = useLocation();
 
-interface NavbarProps {
-  currentTab: Tab;
-  setCurrentTab: React.Dispatch<React.SetStateAction<Tab>>;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab }) => {
   return (
     <nav className="bg-gray-800 p-4 flex gap-4 sticky top-0 z-50">
-      <button
-        onClick={() => setCurrentTab("calculadora")}
+      <Link
+        to="/"
         className={`px-4 py-2 rounded ${
-          currentTab === "calculadora"
+          location.pathname === "/calculadora"
             ? "bg-white text-gray-800 font-semibold"
             : "text-white hover:bg-gray-700"
         }`}
       >
         Calculadora
-      </button>
-      <button
-        onClick={() => setCurrentTab("historial")}
+      </Link>
+
+      <Link
+        to="/historial"
         className={`px-4 py-2 rounded ${
-          currentTab === "historial"
+          location.pathname === "/historial"
             ? "bg-white text-gray-800 font-semibold"
             : "text-white hover:bg-gray-700"
         }`}
       >
         Historial
-      </button>
+      </Link>
     </nav>
   );
 };

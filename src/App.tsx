@@ -1,18 +1,19 @@
-import React, { useState } from "react";
-import Navbar, { Tab } from "./Navbar";
-import ImcForm from "./ImcForm";
-import Historial from "./Historial";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './Navbar';
+import ImcForm from './ImcForm';
+import Historial from './Historial';
 
 const App: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<Tab>("calculadora");
-
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-
+      <Navbar />
       <main className="flex-1 p-4 bg-gray-100">
-        {currentTab === "calculadora" && <ImcForm />}
-        {currentTab === "historial" && <Historial />}
+        <Routes>
+          <Route path="/" element={<Navigate to="/calculadora" replace />} />
+          <Route path="/calculadora" element={<ImcForm />} />
+          <Route path="/historial" element={<Historial />} />
+          <Route path="*" element={<div className="text-center text-2xl">404 - Página no encontrada</div>} />
+        </Routes>
       </main>
     </div>
   );

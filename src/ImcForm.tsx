@@ -199,7 +199,6 @@ const FloatingParticles = ({ theme }: { theme?: CategoryTheme | null }) => {
 function ImcForm() {
   const [altura, setAltura] = useState("");
   const [peso, setPeso] = useState("");
-  // ahora resultado usa el tipo que exportamos del service
   const [resultado, setResultado] = useState<CalculoImc | null>(null);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -215,7 +214,7 @@ function ImcForm() {
     alturaNum > 0 &&
     alturaNum < 3;
 
-  // validaciones iguales a las tuyas
+  // validaciones
   const validateAltura = (value: string) => {
     if (!/^\d*\.?\d*$/.test(value)) {
       setError("Solo se permiten números y punto decimal en altura.");
@@ -285,7 +284,6 @@ function ImcForm() {
     setError("");
 
     try {
-      // <- aquí usamos el service en lugar de axios directo
       const data = await apiService.calcular(alturaNum, pesoNum);
       setResultado(data); // data es CalculoImc (tiene imc y categoria)
     } catch (err) {
