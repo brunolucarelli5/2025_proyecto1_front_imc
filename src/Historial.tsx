@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { apiService, CalculoImc } from "./services/service";
+import { apiService } from "./services/service";
+import { CalculoImc } from "./services/types";
 
 const ITEMS_PER_PAGE = 5;
 

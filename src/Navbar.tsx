@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
 const Navbar: React.FC = () => {
   const location = useLocation();
@@ -27,6 +28,31 @@ const Navbar: React.FC = () => {
       >
         Historial
       </Link>
+    <div className="flex-grow flex justify-end gap-4">
+        <Link
+          to="/register"
+          className={`px-4 py-2 rounded flex items-center gap-2 ${
+            location.pathname === "/register"
+              ? "bg-white text-gray-800 font-semibold"
+              : "text-white hover:bg-gray-700"
+          }`}
+        >
+          <FaUserPlus />
+          Registrarme
+        </Link>
+        <Link
+          to="/login"
+          className={`px-4 py-2 rounded flex items-center gap-2 ${
+            location.pathname === "/login"
+              ? "bg-white text-gray-800 font-semibold"
+              : "text-white hover:bg-gray-700"
+          }`}
+        >
+          <FaSignInAlt />
+          Iniciar sesión
+        </Link>
+      </div>
+
     </nav>
   );
 };

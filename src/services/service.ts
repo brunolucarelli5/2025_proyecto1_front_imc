@@ -1,13 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-
-export type CalculoImc = {
-  fecha: string;
-  fecha_calculo?: string;
-  peso: number;
-  altura: number;
-  imc: number;
-  categoria: string;
-};
+import { LoginDTO, RegisterDTO } from "./types";
+import { CalculoImc } from "./types";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/imc", // cambia a tu URL real
@@ -54,10 +47,6 @@ export const apiService = {
       }
     },
 
-
-
-
-
   async calcular(altura: number, peso: number): Promise<CalculoImc> {
     try {
       const response: AxiosResponse<CalculoImc> = await api.post("/calcular", { altura, peso });
@@ -67,4 +56,18 @@ export const apiService = {
       throw err;
     }
   },
+
+
+  register: (data: RegisterDTO) => {
+    // Usa 'api.post' y solo el endpoint específico
+    return api.post('/auth/register', data);
+  },
+
+  // Función para el login
+  login: (data: LoginDTO) => {
+    // Usa 'api.post' y solo el endpoint específico
+    return api.post('/auth/login', data);
+  },
+
+
 };

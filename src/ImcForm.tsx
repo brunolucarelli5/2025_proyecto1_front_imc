@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { apiService, CalculoImc } from "./services/service";
+import { apiService } from "./services/service";
+import { CalculoImc } from "./services/types";
 
 interface ImcResult {
   imc: number;
