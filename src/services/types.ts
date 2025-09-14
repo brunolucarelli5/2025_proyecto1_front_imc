@@ -12,7 +12,7 @@ export interface LoginDTO {
 
 export type CalculoImc = {
   fecha: string;
-  fecha_calculo?: string;
+  fecha_calculo?: string; //deuda técnica
   peso: number;
   altura: number;
   imc: number;

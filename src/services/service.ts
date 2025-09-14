@@ -3,14 +3,14 @@ import { LoginDTO, RegisterDTO } from "./types";
 import { CalculoImc } from "./types";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/imc", // cambia a tu URL real
+  baseURL: "http://localhost:3000", // cambia a tu URL real
   headers: { "Content-Type": "application/json" },
 });
 
 export const apiService = {
   async findAll(): Promise<CalculoImc[]> {
     try {
-      const response: AxiosResponse<CalculoImc[]> = await api.get("/historial");
+      const response: AxiosResponse<CalculoImc[]> = await api.get("/imc/historial");
       return response.data;
     } catch (err) {
       console.error("Error en findAll:", err);
@@ -20,7 +20,7 @@ export const apiService = {
 
   async findAllDesc(): Promise<CalculoImc[]> {
     try {
-      const response: AxiosResponse<CalculoImc[]> = await api.get("/historial");
+      const response: AxiosResponse<CalculoImc[]> = await api.get("/imc/historial");
       return response.data;
     } catch (err) {
       console.error("Error en findAllDesc:", err);
@@ -39,7 +39,7 @@ export const apiService = {
           mostrar: Number(mostrar),
           sort
         };
-        const response = await api.get("/pag", { params });
+        const response = await api.get("/imc/pag", { params });
         return response.data;
       } catch (err) {
         console.error("Error en getHistorial:", err);
@@ -49,7 +49,7 @@ export const apiService = {
 
   async calcular(altura: number, peso: number): Promise<CalculoImc> {
     try {
-      const response: AxiosResponse<CalculoImc> = await api.post("/calcular", { altura, peso });
+      const response: AxiosResponse<CalculoImc> = await api.post("/imc/calcular", { altura, peso });
       return response.data;
     } catch (err) {
       console.error("Error en calcular:", err);
@@ -60,7 +60,7 @@ export const apiService = {
 
   register: (data: RegisterDTO) => {
     // Usa 'api.post' y solo el endpoint específico
-    return api.post('/auth/register', data);
+    return api.post('/users/register', data);
   },
 
   // Función para el login
