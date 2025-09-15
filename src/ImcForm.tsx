@@ -425,11 +425,12 @@ function ImcForm() {
                       className="space-y-3"
                       variants={itemVariants}
                     >
-                      <label className="block text-sm font-bold text-gray-800 uppercase tracking-wide">
+                      <label htmlFor="altura" className="block text-sm font-bold text-gray-800 uppercase tracking-wide">
                         Altura (metros)
                       </label>
                       <div className="relative group">
                         <motion.input
+                          id="altura"
                           type="text"
                           value={altura}
                           onChange={(e) => {
@@ -466,11 +467,12 @@ function ImcForm() {
                       className="space-y-3"
                       variants={itemVariants}
                     >
-                      <label className="block text-sm font-bold text-gray-800 uppercase tracking-wide">
+                      <label htmlFor="peso" className="block text-sm font-bold text-gray-800 uppercase tracking-wide">
                         Peso (kilogramos)
                       </label>
                       <div className="relative group">
                         <motion.input
+                        id="peso"
                         type="text"
                         value={peso}
                         onChange={(e) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { apiService } from "./services/service";
@@ -10,8 +10,11 @@ export default function Historial() {
   const [historialCompleto, setHistorialCompleto] = useState<CalculoImc[]>([]);
   const [historialFiltrado, setHistorialFiltrado] = useState<CalculoImc[]>([]);
   const [loading, setLoading] = useState(false);
-  
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null]);
+
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ]);
   const [startDate, endDate] = dateRange;
 
   const [sort, setSort] = useState<"asc" | "desc">("desc");
@@ -23,7 +26,7 @@ export default function Historial() {
   const fetchHistorialCompleto = async () => {
     setLoading(true);
     try {
-      const data = await apiService.getHistorial(); 
+      const data = await apiService.getHistorial();
       setHistorialCompleto(data.data);
     } catch (err) {
       console.error("Error al cargar historial:", err);
@@ -70,7 +73,8 @@ export default function Historial() {
   );
 
   const handlePrev = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const handleNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const handleNext = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
     <div className="mt-8">
@@ -78,7 +82,9 @@ export default function Historial() {
 
       <div className="flex gap-4 mb-4 items-end">
         <div className="w-64">
-          <label className="block text-sm font-medium text-gray-700 w">Rango de fechas</label>
+          <label htmlFor="date-range" className="block text-sm font-medium text-gray-700 w">
+            Rango de fechas
+          </label>
           <DatePicker
             selectsRange={true}
             startDate={startDate}
@@ -93,8 +99,11 @@ export default function Historial() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Orden</label>
+          <label htmlFor="sort-order" className="block text-sm font-medium text-gray-700">
+            Orden
+          </label>
           <select
+            id="sort-order"
             value={sort}
             onChange={(e) => setSort(e.target.value as "asc" | "desc")}
             className="mt-1 block w-full border rounded px-2 py-1"
@@ -109,14 +118,16 @@ export default function Historial() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              {["Fecha", "Peso (kg)", "Altura (m)", "IMC", "Categoría"].map((header) => (
-                <th
-                  key={header}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  {header}
-                </th>
-              ))}
+              {["Fecha", "Peso (kg)", "Altura (m)", "IMC", "Categoría"].map(
+                (header) => (
+                  <th
+                    key={header}
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    {header}
+                  </th>
+                )
+              )}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -136,12 +147,18 @@ export default function Historial() {
               paginatedHistorial.map((item, idx) => (
                 <tr key={idx}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {new Date(item.fecha_calculo ?? item.fecha).toLocaleDateString()}
+                    {new Date(
+                      item.fecha_calculo ?? item.fecha
+                    ).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.peso}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.altura}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{Number(item.imc).toFixed(2)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.categoria}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {Number(item.imc).toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.categoria}
+                  </td>
                 </tr>
               ))
             )}

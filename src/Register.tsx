@@ -54,8 +54,9 @@ const RegisterForm = () => {
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Email</label>
+            <label htmlFor="register-email" className="block text-gray-700 text-sm font-medium mb-1">Email</label>
             <input
+              id="register-email"
               type="email"
               name="email"
               value={formData.email}
@@ -65,8 +66,9 @@ const RegisterForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Contraseña</label>
+            <label htmlFor="register-password" className="block text-gray-700 text-sm font-medium mb-1">Contraseña</label>
             <input
+              id="register-password"
               type="password"
               name="password"
               value={formData.password}
@@ -76,8 +78,9 @@ const RegisterForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
+            <label htmlFor="firstName" className="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
             <input
+              id="firstName"
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -87,8 +90,9 @@ const RegisterForm = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Apellido</label>
+            <label htmlFor="lastName" className="block text-gray-700 text-sm font-medium mb-1">Apellido</label>
             <input
+              id="lastName"
               type="text"
               name="lastName"
               value={formData.lastName}

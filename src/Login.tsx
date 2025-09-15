@@ -48,8 +48,9 @@ const LoginForm = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Inicia sesión</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Email</label>
+            <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-1">Email</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -59,8 +60,9 @@ const LoginForm = () => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-medium mb-1">Contraseña</label>
+            <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-1">Contraseña</label>
             <input
+              id="password"
               type="password"
               name="password"
               value={formData.password}
