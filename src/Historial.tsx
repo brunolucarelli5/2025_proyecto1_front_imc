@@ -23,13 +23,19 @@ export default function Historial() {
   const totalItems = historialFiltrado.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
+  // En Historial.tsx
+  const [error, setError] = useState<string | null>(null);
+
   const fetchHistorialCompleto = async () => {
     setLoading(true);
+    setError(null);
     try {
       const data = await apiService.getHistorial();
       setHistorialCompleto(data.data);
-    } catch (err) {
+    } catch (err: any) {
+      // Si hay un error, lo guarda en el estado
       console.error("Error al cargar historial:", err);
+      setError("No se pudo cargar el historial. Intenta recargar la página.");
     } finally {
       setLoading(false);
     }
@@ -82,7 +88,10 @@ export default function Historial() {
 
       <div className="flex gap-4 mb-4 items-end">
         <div className="w-64">
-          <label htmlFor="date-range" className="block text-sm font-medium text-gray-700 w">
+          <label
+            htmlFor="date-range"
+            className="block text-sm font-medium text-gray-700 w"
+          >
             Rango de fechas
           </label>
           <DatePicker
@@ -99,7 +108,10 @@ export default function Historial() {
         </div>
 
         <div>
-          <label htmlFor="sort-order" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="sort-order"
+            className="block text-sm font-medium text-gray-700"
+          >
             Orden
           </label>
           <select

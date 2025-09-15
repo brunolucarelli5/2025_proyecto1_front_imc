@@ -10,6 +10,11 @@ export interface LoginDTO {
   password: string;
 }
 
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export type CalculoImc = {
   fecha: string;
   fecha_calculo?: string; //deuda técnica
