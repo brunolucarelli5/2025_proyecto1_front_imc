@@ -1,0 +1,53 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - link "Calculadora" [ref=e5] [cursor=pointer]:
+      - /url: /
+    - link "Historial" [ref=e6] [cursor=pointer]:
+      - /url: /historial
+    - generic [ref=e7]:
+      - link "Registrarme" [ref=e8] [cursor=pointer]:
+        - /url: /register
+        - img [ref=e9] [cursor=pointer]
+        - text: Registrarme
+      - link "Iniciar sesión" [ref=e11] [cursor=pointer]:
+        - /url: /login
+        - img [ref=e12] [cursor=pointer]
+        - text: Iniciar sesión
+  - main [ref=e14]:
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e21]: ⚖️
+        - heading "Calculadora de IMC" [level=1] [ref=e22]
+        - paragraph [ref=e23]: Descubre tu Índice de Masa Corporal con nuestra herramienta avanzada
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - generic [ref=e30]: Altura (metros)
+          - generic [ref=e31]:
+            - textbox "Altura (metros)" [ref=e32]: "1.75"
+            - generic:
+              - generic: m
+        - generic [ref=e33]:
+          - generic [ref=e34]: Peso (kilogramos)
+          - generic [ref=e35]:
+            - textbox "Peso (kilogramos)" [ref=e36]: "70"
+            - generic:
+              - generic: kg
+        - button "⚖️ Calcular IMC" [ref=e37]:
+          - generic [ref=e39]:
+            - generic [ref=e40]: ⚖️
+            - text: Calcular IMC
+      - generic [ref=e43]:
+        - generic [ref=e45]: ⚠️
+        - paragraph [ref=e47]: Error al calcular el IMC. Verifica si el backend está corriendo.
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - paragraph [ref=e50]: 💡 El IMC es una medida aproximada que puede no ser precisa para todos los casos.
+          - paragraph [ref=e51]: Consulta con un profesional de la salud para una evaluación completa y personalizada.
+        - generic [ref=e52]:
+          - generic [ref=e53]: ✨
+          - generic [ref=e54]: Ultra Enhanced Version
+          - generic [ref=e55]: ✨
+```
