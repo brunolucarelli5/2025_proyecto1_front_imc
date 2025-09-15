@@ -16,24 +16,26 @@ const App: React.FC = () => {
       {!hideNavbar && <Navbar />}
       <main className="flex-1 p-4 bg-gray-100">
         <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
 
-        <Route element={<PrivateRoute />}>
-          <Route path="/calculadora" element={<ImcForm />} />
-          <Route path="/historial" element={<Historial />} />
-        </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path="/calculadora" element={<ImcForm />} />
+            <Route path="/historial" element={<Historial />} />
+          </Route>
         
-       <Route
-          path="/"
-          element={
-            localStorage.getItem("accessToken")
-              ? <Navigate to="/calculadora" replace />
-              : <Navigate to="/login" replace />
-          }
-        />
-        <Route path="*" element={<div>404 - Página no encontrada</div>} />
-      </Routes>
+           <Route
+              path="/"
+              element={
+                localStorage.getItem("accessToken")
+                  ? <Navigate to="/calculadora" replace />
+                  : <Navigate to="/login" replace />
+              }
+            />
+
+          <Route path="*" element={<div>404 - Página no encontrada</div>} />
+        
+        </Routes>
       </main>
     </div>
   );
