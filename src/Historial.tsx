@@ -20,17 +20,23 @@ export default function Historial() {
   const totalItems = historialFiltrado.length;
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  const fetchHistorialCompleto = async () => {
-    setLoading(true);
-    try {
-      const data = await apiService.getHistorial(); 
-      setHistorialCompleto(data.data);
-    } catch (err) {
-      console.error("Error al cargar historial:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // En Historial.tsx
+const [error, setError] = useState<string | null>(null);
+
+const fetchHistorialCompleto = async () => {
+  setLoading(true);
+  setError(null);
+  try {
+    const data = await apiService.getHistorial();
+    setHistorialCompleto(data.data);
+  } catch (err: any) {
+    // Si hay un error, lo guarda en el estado
+    console.error("Error al cargar historial:", err);
+    setError("No se pudo cargar el historial. Intenta recargar la página.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchHistorialCompleto();
