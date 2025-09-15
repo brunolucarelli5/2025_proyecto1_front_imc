@@ -24,7 +24,14 @@ const App: React.FC = () => {
           <Route path="/historial" element={<Historial />} />
         </Route>
         
-        <Route path="/" element={<Navigate to="/login" replace />} />
+       <Route
+          path="/"
+          element={
+            localStorage.getItem("accessToken")
+              ? <Navigate to="/calculadora" replace />
+              : <Navigate to="/login" replace />
+          }
+        />
         <Route path="*" element={<div>404 - Página no encontrada</div>} />
       </Routes>
       </main>

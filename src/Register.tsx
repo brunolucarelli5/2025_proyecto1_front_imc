@@ -13,6 +13,7 @@ const RegisterForm = () => {
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -25,23 +26,27 @@ const RegisterForm = () => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    
+    setLoading(true);
+
     try {
-      const response = await apiService.register(formData); 
+      const response = await apiService.register(formData);
       setSuccess('Registro exitoso. Serás redirigido a la página de login.');
       console.log('Registro exitoso:', response.data);
 
+      // Mantener botón deshabilitado durante la redirección
       setTimeout(() => {
         navigate('/login');
       }, 3000);
 
     } catch (err: any) {
       console.error('Error en el registro:', err);
-      if (err.response && err.response.data && err.response.data.message) {
+      if (err.response?.data?.message) {
         setError(err.response.data.message);
       } else {
         setError('Ocurrió un error inesperado. Intenta de nuevo.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,6 +58,7 @@ const RegisterForm = () => {
             Guarda tus cálculos para llevar un registro de tu progreso.
         </p>
         <form onSubmit={handleSubmit}>
+          {/* Inputs */}
           <div className="mb-4">
             <label htmlFor="register-email" className="block text-gray-700 text-sm font-medium mb-1">Email</label>
             <input
@@ -65,6 +71,7 @@ const RegisterForm = () => {
               required
             />
           </div>
+
           <div className="mb-4">
             <label htmlFor="register-password" className="block text-gray-700 text-sm font-medium mb-1">Contraseña</label>
             <input
@@ -77,6 +84,7 @@ const RegisterForm = () => {
               required
             />
           </div>
+
           <div className="mb-4">
             <label htmlFor="firstName" className="block text-gray-700 text-sm font-medium mb-1">Nombre</label>
             <input
@@ -89,6 +97,7 @@ const RegisterForm = () => {
               required
             />
           </div>
+
           <div className="mb-6">
             <label htmlFor="lastName" className="block text-gray-700 text-sm font-medium mb-1">Apellido</label>
             <input
@@ -101,13 +110,18 @@ const RegisterForm = () => {
               required
             />
           </div>
+
+          {/* Mensajes */}
           {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-4 font-medium">{error}</div>}
           {success && <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative mb-4 font-medium">{success}</div>}
+
+          {/* Botón */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300"
+            disabled={loading || !!success} // <--- deshabilitado durante carga o mientras se muestra éxito
+            className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-lg hover:bg-blue-700 disabled:opacity-50 transition-all duration-300"
           >
-            Registrarme
+            {loading ? 'Registrando...' : success ? 'Redirigiendo...' : 'Registrarme'}
           </button>
         </form>
       </div>

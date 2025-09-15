@@ -26,20 +26,20 @@ const LoginForm = () => {
       const response = await apiService.login(formData);
       console.log("Inicio de sesión exitoso:", response.data);
 
-      // Corregido: Guarda los tokens usando los nombres correctos de las propiedades
+      // Guardar token en localStorage
       localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
 
+      // Aquí sí navegar
       navigate("/calculadora");
     } catch (err: any) {
       console.error("Error en el login:", err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError("Credenciales incorrectas. Intenta de nuevo.");
-      }
+      setError(err.response?.data?.message || "Credenciales incorrectas. Intenta de nuevo.");
     }
   };
+
+
+
 
   return (
     <div className="flex justify-center items-center h-full">
@@ -96,7 +96,7 @@ const LoginForm = () => {
             type="submit"
             className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300"
           >
-                        Iniciar Sesión          {" "}
+                        Iniciar Sesión          
           </button>
                    {" "}
           <p className="mt-4 text-center text-sm text-gray-600">
