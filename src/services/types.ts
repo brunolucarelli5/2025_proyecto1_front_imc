@@ -21,7 +21,6 @@ export interface AuthResponse {
 // Representa un cálculo de IMC con su fecha y categoría
 // Deuda técnica: fecha_calculo es redundante y debería unificarse con fecha
 export type CalculoImc = {
-  fecha: Date;
   fecha_calculo: Date;
   peso: number;
   altura: number;

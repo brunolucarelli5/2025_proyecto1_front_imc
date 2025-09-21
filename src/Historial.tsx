@@ -33,7 +33,7 @@ export default function Historial() {
         endOfDay.setHours(23, 59, 59, 999);
 
         filteredData = filteredData.filter((item: CalculoImc) => {
-          const fechaItem = new Date(item.fecha_calculo ?? item.fecha);
+          const fechaItem = new Date(item.fecha_calculo);
           return fechaItem >= startDate && fechaItem <= endOfDay;
         });
       }
@@ -41,8 +41,8 @@ export default function Historial() {
       setHistorial(filteredData);
       setTotalItems(data.total);
     } catch (err: any) {
-      if (err.response?.status !== 401) {
-        console.error(err); // opcional, solo para errores distintos a 401
+      if (err.response?.status) {
+        console.error(err);
       }
       setError("No se pudo cargar el historial. Intenta recargar la página.");
     } finally {
@@ -139,7 +139,7 @@ export default function Historial() {
               historial.map((item: CalculoImc, idx: number) => (
                 <tr key={idx}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {new Date(item.fecha_calculo ?? item.fecha).toLocaleDateString()}
+                    {new Date(item.fecha_calculo).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.peso}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.altura}</td>
