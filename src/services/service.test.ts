@@ -27,33 +27,6 @@ describe('apiService', () => {
     vi.clearAllMocks()
   })
 
-  describe('findAll', () => {
-    it('should fetch all IMC records successfully', async () => {
-      const mockData: CalculoImc[] = [
-        {
-          fecha_calculo: new Date("2023-12-01"),
-          peso: 70,
-          altura: 1.75,
-          imc: 22.86,
-          categoria: 'Peso normal'
-        }
-      ]
-
-      mockGet.mockResolvedValue({ data: mockData })
-
-      const result = await apiService.getHistorial()
-      expect(result).toEqual(mockData)
-      expect(mockGet).toHaveBeenCalledWith('/imc/historial')
-    })
-
-    it('should handle errors when fetching IMC records', async () => {
-      const errorMessage = 'Network Error'
-      mockGet.mockRejectedValue(new Error(errorMessage))
-
-      await expect(apiService.getHistorial()).rejects.toThrow(errorMessage)
-    })
-  })
-
   describe('getHistorial', () => {
     it('should fetch paginated history with default parameters', async () => {
       const mockResponse = {
