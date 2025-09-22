@@ -3,8 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { apiService } from "./services/service";
 import { CalculoImc } from "./services/types";
 
+/*
+  ESTÉTICA
+*/
 
-interface CategoryTheme {
+//Colores y estilos a usar según el resultado del IMC.
+interface CategoryTheme {   
   primary: string;
   secondary: string;
   accent: string;
@@ -16,6 +20,7 @@ interface CategoryTheme {
   animation: string;
 }
 
+//Esta función devuelve un objeto CategoryTheme, que marca los colores a usar según la categoría IMC.
 const getCategoryTheme = (categoria: string): CategoryTheme => {
   switch (categoria.toLowerCase()) {
     case 'bajo peso':
@@ -30,7 +35,7 @@ const getCategoryTheme = (categoria: string): CategoryTheme => {
         icon: '📉',
         animation: 'animate-pulse'
       };
-    case 'peso normal':
+    case 'normal':
       return {
         primary: 'green',
         secondary: 'emerald',
@@ -54,7 +59,7 @@ const getCategoryTheme = (categoria: string): CategoryTheme => {
         icon: '⚠️',
         animation: 'animate-pulse'
       };
-    case 'obesidad':
+    case 'obeso':
       return {
         primary: 'red',
         secondary: 'rose',
@@ -192,13 +197,19 @@ const FloatingParticles = ({ theme }: { theme?: CategoryTheme | null }) => {
   );
 };
 
+
+/*
+  FUNCIONALIDAD
+*/
+
 function ImcForm() {
   const [altura, setAltura] = useState("");
   const [peso, setPeso] = useState("");
-  const [resultado, setResultado] = useState<CalculoImc | null>(null);
+  const [resultado, setResultado] = useState<CalculoImc | null>(null); //resultado de la API (IMC, categoría)
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<CategoryTheme | null>(null);
+  const [currentTheme, setCurrentTheme] = useState<CategoryTheme | null>(null); //Guardamos los cambios estéticos.
+
 
   const alturaNum = parseFloat(altura);
   const pesoNum = parseFloat(peso);
@@ -247,7 +258,7 @@ function ImcForm() {
     setError("");
   };
 
-  useEffect(() => {
+  useEffect(() => {     //Actualizamos el tema visual cada vez que cambia resultado (API)
     if (resultado) {
       setCurrentTheme(getCategoryTheme(resultado.categoria));
     } else {
@@ -661,13 +672,13 @@ function ImcForm() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.9 }}
                         >
-                          {resultado.categoria.toLowerCase() === 'peso normal' &&
-                            '🎉 ¡Excelente! Mantén un estilo de vida saludable con ejercicio regular y alimentación balanceada.'}
-                          {resultado.categoria.toLowerCase() === 'bajo peso' &&
-                            '💡 Considera consultar con un nutricionista para desarrollar un plan personalizado de ganancia de peso saludable.'}
+                          {resultado.categoria.toLowerCase() === 'normal' &&(
+                            '🎉 ¡Excelente! Mantén un estilo de vida saludable con ejercicio regular y alimentación balanceada.')}
+                          {resultado.categoria.toLowerCase() === 'bajo peso' &&(
+                            '💡 Considera consultar con un nutricionista para desarrollar un plan personalizado de ganancia de peso saludable.')}
                           {resultado.categoria.toLowerCase() === 'sobrepeso' &&
                             '🏃‍♂️ Te recomendamos incorporar actividad física regular y mantener una dieta balanceada y nutritiva.'}
-                          {resultado.categoria.toLowerCase() === 'obesidad' &&
+                          {resultado.categoria.toLowerCase() === 'obeso' &&
                             '👩‍⚕️ Es importante consultar con un profesional de la salud para desarrollar un plan integral y personalizado.'}
                         </motion.div>
 

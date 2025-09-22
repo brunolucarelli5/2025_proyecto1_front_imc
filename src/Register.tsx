@@ -26,29 +26,42 @@ const RegisterForm = () => {
     e.preventDefault();
     setError(null);
     setSuccess(null);
-    setLoading(true);
 
+    // 🔍 Validación en el front antes de llamar al back
+    const passwordError = validatePasswordFront(formData.password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    setLoading(true);
     try {
       const response = await apiService.register(formData);
       setSuccess('Registro exitoso. Serás redirigido a la página de login.');
       console.log('Registro exitoso:', response.data);
 
-      // Mantener botón deshabilitado durante la redirección
       setTimeout(() => {
         navigate('/login');
       }, 3000);
-
     } catch (err: any) {
       console.error('Error en el registro:', err);
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else {
-        setError('Ocurrió un error inesperado. Intenta de nuevo.');
-      }
+      setError(err.response?.data?.message ?? 'Ocurrió un error inesperado. Intenta de nuevo.');
     } finally {
       setLoading(false);
     }
   };
+
+
+  const validatePasswordFront = (password: string): string | null => {
+    const minLength = 8;
+    if (password.length < minLength) return `La contraseña debe tener al menos ${minLength} caracteres.`;
+    if (!/[A-Z]/.test(password)) return 'La contraseña debe contener al menos una letra mayúscula.';
+    if (!/[a-z]/.test(password)) return 'La contraseña debe contener al menos una letra minúscula.';
+    if (!/\d/.test(password)) return 'La contraseña debe contener al menos un número.';
+    if (!/[!@#$%^&*(),.?":{}|<>_\-+=/\\[\]~`]/.test(password)) return 'La contraseña debe contener al menos un carácter especial.';
+    return null;
+  };
+
 
   return (
     <div className="flex justify-center items-center h-full">

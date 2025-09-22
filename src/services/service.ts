@@ -39,7 +39,7 @@ api.interceptors.response.use(
       } catch {
         localStorage.clear();
         window.location.href = "/login";
-        return Promise.resolve({ data: null }); // evita mostrar 401 en consola
+        return Promise.resolve({ data: null }); 
       } finally {
       }
     }
@@ -47,11 +47,11 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !refreshToken) {
       localStorage.clear();
       window.location.href = "/login";
-      return Promise.resolve({ data: null }); // evita mostrar 401 en consola
+      return Promise.resolve({ data: null }); 
     }
 
     // Otros errores
-    if (error.response?.status !== 401) console.error(error);
+    if (error.response?.status) console.error(error);
 
     return Promise.reject(error);
   }
