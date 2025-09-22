@@ -31,7 +31,7 @@ describe('apiService', () => {
     it('should fetch all IMC records successfully', async () => {
       const mockData: CalculoImc[] = [
         {
-          fecha: '2023-12-01',
+          fecha_calculo: new Date("2023-12-01"),
           peso: 70,
           altura: 1.75,
           imc: 22.86,
@@ -41,7 +41,7 @@ describe('apiService', () => {
 
       mockGet.mockResolvedValue({ data: mockData })
 
-      const result = await apiService.findAll()
+      const result = await apiService.getHistorial()
       expect(result).toEqual(mockData)
       expect(mockGet).toHaveBeenCalledWith('/imc/historial')
     })
@@ -50,7 +50,7 @@ describe('apiService', () => {
       const errorMessage = 'Network Error'
       mockGet.mockRejectedValue(new Error(errorMessage))
 
-      await expect(apiService.findAll()).rejects.toThrow(errorMessage)
+      await expect(apiService.getHistorial()).rejects.toThrow(errorMessage)
     })
   })
 
@@ -59,7 +59,7 @@ describe('apiService', () => {
       const mockResponse = {
         data: [
           {
-            fecha: '2023-12-01',
+            fecha_calculo: new Date('2023-12-01'),
             peso: 70,
             altura: 1.75,
             imc: 22.86,
@@ -98,7 +98,7 @@ describe('apiService', () => {
   describe('calcular', () => {
     it('should calculate IMC successfully', async () => {
       const mockResult: CalculoImc = {
-        fecha: '2023-12-01',
+        fecha_calculo: new Date('2023-12-01'),
         peso: 70,
         altura: 1.75,
         imc: 22.86,
