@@ -118,7 +118,6 @@ describe('ImcForm Component', () => {
   it('calculates IMC successfully and displays result', async () => {
     const user = userEvent.setup()
     const mockResult: CalculoImc = {
-      fecha: new Date('2023-12-01'),
       fecha_calculo: new Date('2023-12-01'),
       peso: 70,
       altura: 1.75,
@@ -173,7 +172,6 @@ describe('ImcForm Component', () => {
 
     // Resolve the promise
     const mockResult: CalculoImc = {
-      fecha: new Date('2023-12-01'),
       fecha_calculo: new Date('2023-12-01'),
       peso: 70,
       altura: 1.75,
@@ -261,7 +259,6 @@ describe('ImcForm Component', () => {
   it('resets form when reset button is clicked', async () => {
     const user = userEvent.setup()
     const mockResult: CalculoImc = {
-      fecha: new Date('2023-12-01'),
       fecha_calculo: new Date('2023-12-01'),
       peso: 70,
       altura: 1.75,
@@ -301,19 +298,19 @@ describe('ImcForm Component', () => {
 
     const categories = [
       {
-        result: { fecha: new Date('2023-12-01'), fecha_calculo: new Date('2023-12-01'), peso: 50, altura: 1.75, imc: 16.3, categoria: 'Bajo peso' },
+        result: { fecha_calculo: new Date('2023-12-01'), peso: 50, altura: 1.75, imc: 16.3, categoria: 'Bajo peso' },
         expectedAdvice: 'Considera consultar con un nutricionista para desarrollar un plan personalizado de ganancia de peso saludable.'
       },
       {
-        result: { fecha: new Date('2023-12-01'), fecha_calculo: new Date('2023-12-01'), peso: 70, altura: 1.75, imc: 22.86, categoria: 'Peso normal' },
+        result: { fecha_calculo: new Date('2023-12-01'), peso: 70, altura: 1.75, imc: 22.86, categoria: 'Peso normal' },
         expectedAdvice: '¡Excelente! Mantén un estilo de vida saludable con ejercicio regular y alimentación balanceada.'
       },
       {
-        result: { fecha: new Date('2023-12-01'), fecha_calculo: new Date('2023-12-01'), peso: 85, altura: 1.75, imc: 27.8, categoria: 'Sobrepeso' },
+        result: { fecha_calculo: new Date('2023-12-01'), peso: 85, altura: 1.75, imc: 27.8, categoria: 'Sobrepeso' },
         expectedAdvice: 'Te recomendamos incorporar actividad física regular y mantener una dieta balanceada y nutritiva.'
       },
       {
-        result: { fecha: new Date('2023-12-01'), fecha_calculo: new Date('2023-12-01'), peso: 110, altura: 1.75, imc: 36.0, categoria: 'Obesidad' },
+        result: { fecha_calculo: new Date('2023-12-01'), peso: 110, altura: 1.75, imc: 36.0, categoria: 'Obesidad' },
         expectedAdvice: 'Es importante consultar con un profesional de la salud para desarrollar un plan integral y personalizado.'
       }
     ]

@@ -27,13 +27,11 @@ describe('apiService', () => {
     vi.clearAllMocks()
   })
 
-
   describe('getHistorial', () => {
     it('should fetch paginated history with default parameters', async () => {
       const mockResponse = {
         data: [
           {
-            fecha: new Date('2023-12-01'),
             fecha_calculo: new Date('2023-12-01'),
             peso: 70,
             altura: 1.75,
@@ -73,7 +71,6 @@ describe('apiService', () => {
   describe('calcular', () => {
     it('should calculate IMC successfully', async () => {
       const mockResult: CalculoImc = {
-        fecha: new Date('2023-12-01'),
         fecha_calculo: new Date('2023-12-01'),
         peso: 70,
         altura: 1.75,
