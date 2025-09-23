@@ -44,6 +44,17 @@ const Navbar: React.FC = () => {
       >
         Historial
       </Link>
+
+      <Link
+        to="/dashboard"
+        className={`px-4 py-2 rounded ${
+          location.pathname === "/dashboard"
+            ? "bg-white text-gray-800 font-semibold"
+            : "text-white hover:bg-gray-700"
+        }`}
+      >
+        Estadísticas
+      </Link>
       
       <div className="flex-grow flex justify-end gap-4">
         {!isAuthenticated ? (

@@ -6,6 +6,7 @@ import Historial from './Historial';
 import RegisterForm from './Register'; 
 import LoginForm from './Login';
 import PrivateRoute from './PrivateRoutes'; // Importa el guardián de rutas
+import Dashboard from './Dashboard';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Route element={<PrivateRoute />}>
             <Route path="/calculadora" element={<ImcForm />} />
             <Route path="/historial" element={<Historial />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Route>
         
            <Route
