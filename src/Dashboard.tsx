@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line, Bar } from "react-chartjs-2";
+import { apiService } from "./services/service";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,30 +26,37 @@ ChartJS.register(
 );
 
 const Dashboard: React.FC = () => {
-  // Mock de datos de historial
-  const historialMock = [
-    { fecha: "2025-09-01", imc: 22, peso: 70, categoria: "Normal" },
-    { fecha: "2025-09-05", imc: 24, peso: 73, categoria: "Normal" },
-    { fecha: "2025-09-10", imc: 26, peso: 75, categoria: "Sobrepeso" },
-    { fecha: "2025-09-15", imc: 27, peso: 77, categoria: "Sobrepeso" },
-    { fecha: "2025-09-20", imc: 28, peso: 78, categoria: "Sobrepeso" },
-    { fecha: "2025-09-22", imc: 23, peso: 71, categoria: "Normal" },
-  ];
+  const [historiales, setHistoriales] = useState<any[]>([]);
+  const [categorias, setCategorias] = useState<any>({});
+  const [estadisticasImc, setEstadisticasImc] = useState<any>({});
+  const [estadisticasPeso, setEstadisticasPeso] = useState<any>({});
 
-  // Datos para gráfico de línea (IMC y peso a lo largo del tiempo)
+  useEffect(() => {
+    const fetchDashboard = async () => {
+      const data = await apiService.obtenerDashboard();
+      if (data) {
+        setHistoriales(data.historiales);
+        setCategorias(data.categorias);
+        setEstadisticasImc(data.estadisticasImc);
+        setEstadisticasPeso(data.estadisticasPeso);
+      }
+    };
+    fetchDashboard();
+  }, []);
+
   const lineData = {
-    labels: historialMock.map((item) => item.fecha),
+    labels: historiales.map((item) => new Date(item.fecha_calculo).toLocaleDateString()),
     datasets: [
       {
         label: "IMC",
-        data: historialMock.map((item) => item.imc),
+        data: historiales.map((item) => item.imc),
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         yAxisID: "y",
       },
       {
         label: "Peso",
-        data: historialMock.map((item) => item.peso),
+        data: historiales.map((item) => item.peso),
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         yAxisID: "y1",
@@ -86,18 +95,17 @@ const Dashboard: React.FC = () => {
     },
   };
 
-  // Conteo por categoría
-  const categoryCounts = historialMock.reduce((acc: Record<string, number>, item) => {
-    acc[item.categoria] = (acc[item.categoria] || 0) + 1;
-    return acc;
-  }, {});
-
   const barData = {
-    labels: Object.keys(categoryCounts),
+    labels: ["Bajo peso", "Normal", "Sobrepeso", "Obeso"],
     datasets: [
       {
         label: "Cantidad de cálculos por categoría",
-        data: Object.values(categoryCounts),
+        data: [
+          categorias.cantBajoPeso || 0,
+          categorias.cantNormal || 0,
+          categorias.cantSobrepeso || 0,
+          categorias.cantObeso || 0,
+        ],
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
@@ -116,13 +124,21 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-12">
+
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-semibold mb-4">Estadísticas</h2>
+        <p><strong>Peso:</strong> Promedio = {estadisticasPeso.promedio}, Desviación = {estadisticasPeso.desviacion}</p>
+        <p><strong>IMC:</strong> Promedio = {estadisticasImc.promedio}, Desviación = {estadisticasImc.desviacion}</p>
+      </div>
+
       <div className="bg-white p-6 rounded-lg shadow-lg" style={{ height: "400px" }}>
         <Line options={lineOptions} data={lineData} />
       </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-lg"  style={{ height: "400px" }}>
+      <div className="bg-white p-6 rounded-lg shadow-lg" style={{ height: "400px" }}>
         <Bar options={barOptions} data={barData} />
       </div>
+
     </div>
   );
 };

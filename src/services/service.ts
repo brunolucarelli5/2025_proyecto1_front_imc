@@ -81,6 +81,16 @@ export const apiService = {
     }
   },
 
+  async obtenerDashboard() {
+  try {
+    const response = await api.get("/imc/dashboard");
+    return response.data;
+  } catch (err: any) {
+    if (err.response?.status !== 401) console.error("Error en obtenerDashboard:", err);
+    return null;
+  }
+  },
+
   login: (data: LoginDTO) => api.post<AuthResponse>("/auth/login", data),
   register: (data: RegisterDTO) => api.post("/users/register", data),
   logout: () => {
