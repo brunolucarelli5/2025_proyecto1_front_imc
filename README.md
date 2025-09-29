@@ -1,4 +1,4 @@
-# 📄 Calculadora IMC – Despliegue Frontend
+<img width="1024" height="710" alt="imagen" src="https://github.com/user-attachments/assets/5a7864e0-7541-4eee-8c8a-d04f28578146" /># 📄 Calculadora IMC – Despliegue Frontend
 
 Este documento describe los pasos reproducibles para desplegar el *frontend* de la aplicación *Calculadora IMC, desarrollado en **React + Vite*. También incluye información sobre la configuración de los gráficos y visualización de estadísticas.
 
@@ -64,6 +64,7 @@ systemctl reload nginx
 ## 📊 Dashboard y Estadísticas
 
 El *Dashboard* es el componente principal donde el usuario puede visualizar su historial de *IMC y peso* de manera gráfica y estadística.
+<img width="1024" height="710" alt="imagen" src="https://github.com/user-attachments/assets/2b2a2062-da90-4deb-b8c4-25d7cf3a06e7" />
 
 ### Datos que muestra:
 
