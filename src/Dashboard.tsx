@@ -120,6 +120,14 @@ const Dashboard: React.FC = () => {
         text: "Conteo de cálculos por categoría",
       },
     },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          precision: 0, // solo enteros
+        },
+      },
+    },
   };
 
   return (

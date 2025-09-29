@@ -23,6 +23,7 @@ api.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
     const refreshToken = localStorage.getItem("refreshToken");
+    const isOnLoginPage = window.location.pathname === "/login";
 
     if (error.response?.status === 401 && refreshToken && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -38,19 +39,17 @@ api.interceptors.response.use(
         return axios(originalRequest);
       } catch {
         localStorage.clear();
-        window.location.href = "/login";
-        return Promise.resolve({ data: null }); 
-      } finally {
+        if (!isOnLoginPage) window.location.href = "/login";
+        return Promise.resolve({ data: null });
       }
     }
 
     if (error.response?.status === 401 && !refreshToken) {
       localStorage.clear();
-      window.location.href = "/login";
-      return Promise.resolve({ data: null }); 
+      if (!isOnLoginPage) window.location.href = "/login";
+      return Promise.resolve({ data: null });
     }
 
-    // Otros errores
     if (error.response?.status) console.error(error);
 
     return Promise.reject(error);
