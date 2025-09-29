@@ -1,4 +1,4 @@
-<img width="1024" height="710" alt="imagen" src="https://github.com/user-attachments/assets/5a7864e0-7541-4eee-8c8a-d04f28578146" /># 📄 Calculadora IMC – Despliegue Frontend
+# 📄 Calculadora IMC – Despliegue Frontend
 
 Este documento describe los pasos reproducibles para desplegar el *frontend* de la aplicación *Calculadora IMC, desarrollado en **React + Vite*. También incluye información sobre la configuración de los gráficos y visualización de estadísticas.
 
